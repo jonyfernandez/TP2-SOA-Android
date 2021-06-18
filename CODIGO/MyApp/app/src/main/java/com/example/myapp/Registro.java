@@ -1,5 +1,8 @@
 package com.example.myapp;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,58 +39,83 @@ public class Registro extends AppCompatActivity {
         password = findViewById(R.id.etPassword);
         comision = findViewById(R.id.etComision);
         grupo = findViewById(R.id.etGrupo);
-        //txtResp = findViewById(R.id.textrespuesta);
         boton_registrar = findViewById(R.id.btnRegistro);
 
         boton_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validarCampos()){
+                if(comprobarConexionInternet()) {
+                    if (validarCampos()) {
 
-                    final RequestRegistro request = new RequestRegistro();
-                    request.setEnv("TEST");
-                    request.setName(nombre.getText().toString());
-                    request.setLastname(apellido.getText().toString());
-                    request.setDni(Long.parseLong(dni.getText().toString()));
-                    request.setEmail(email.getText().toString());
-                    request.setPassword(password.getText().toString());
-                    request.setComission(Long.parseLong(comision.getText().toString()));
-                    request.setGroup(Long.parseLong(grupo.getText().toString()));
+                        final RequestRegistro request = new RequestRegistro();
+                        request.setEnv("TEST");
+                        request.setName(nombre.getText().toString());
+                        request.setLastname(apellido.getText().toString());
+                        request.setDni(Long.parseLong(dni.getText().toString()));
+                        request.setEmail(email.getText().toString());
+                        request.setPassword(password.getText().toString());
+                        request.setComission(Long.parseLong(comision.getText().toString()));
+                        request.setGroup(Long.parseLong(grupo.getText().toString()));
 
-                    Retrofit retrofit = new Retrofit.Builder() //hay que agregar las dependencias en build.gradle
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .baseUrl("http://so-unlam.net.ar/api/")
-                            .build();
+                        Retrofit retrofit = new Retrofit.Builder() //hay que agregar las dependencias en build.gradle
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .baseUrl("http://so-unlam.net.ar/api/")
+                                .build();
 
-                    Service service = retrofit.create(Service.class);
+                        Service service = retrofit.create(Service.class);
 
-                    Call<ResponseRegistro> call = service.register(request);
-                    call.enqueue(new Callback<ResponseRegistro>(){ //ejecuccion asincrónica, si fuera sincronica se queda esperando la respuesta
-                        @Override
-                        public void onResponse(Call<ResponseRegistro> call, Response<ResponseRegistro> response){
+                        Call<ResponseRegistro> call = service.register(request);
+                        call.enqueue(new Callback<ResponseRegistro>() { //ejecuccion asincrónica, si fuera sincronica se queda esperando la respuesta
+                            @Override
+                            public void onResponse(Call<ResponseRegistro> call, Response<ResponseRegistro> response) {
 
-                            if(response.isSuccessful()){
-                                /*Acá se puede mostrar un msj que se registró con exito*/
-                                /*tambien hay que guardar los datos que nos devuelve y pasar al menu principal*/
-                                /*Los datos se optienen como "token = response.body().getToken()"*/
-                                Toast.makeText(getApplicationContext(),"Registro Exitoso",Toast.LENGTH_LONG).show();
-                                Toast.makeText(getApplicationContext(),"Usuario:" + request.getName(),Toast.LENGTH_LONG).show();
-                                Toast.makeText(getApplicationContext(),"Token" + response.body().getToken(),Toast.LENGTH_LONG).show();
-                            }else{
-                                Log.e("Fallo", response.toString());
+                                if (response.isSuccessful()) {
+                                    /*Acá se puede mostrar un msj que se registró con exito*/
+                                    /*tambien hay que guardar los datos que nos devuelve y pasar al menu principal*/
+                                    /*Los datos se optienen como "token = response.body().getToken()"*/
+                                    /*Tambien podemos guardar este evento en la api*/
+                                    Toast.makeText(getApplicationContext(), "Registro Exitoso", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Usuario:" + request.getName(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Token:" + response.body().getToken(), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Log.e("Fallo", response.toString());
+                                }
+
                             }
 
-                        }
+                            @Override
+                            public void onFailure(Call<ResponseRegistro> call, Throwable t) { //Cuando hay una mala configuracion del retrofit
+                                Log.e("Fallo", t.getMessage());
+                            }
 
-                        @Override
-                        public void onFailure(Call<ResponseRegistro> call, Throwable t){ //Cuando hay una mala configuracion del retrofit
-                            Log.e("Fallo", t.getMessage());
-                        }
-
-                    });
+                        });
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(), "No se pudo completar el registro" + "su internet esta desconectada", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    /**
+     * Metodo para comprobar si el smartphone tiene conexion a internet
+     * retorna true o false segun el estado de la conexion
+     */
+
+    private boolean comprobarConexionInternet() {
+
+        boolean conectado = false;
+
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if(manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            conectado = true;
+        }else
+            conectado = false;
+
+        return conectado;
+
     }
 
     public boolean validarCampos(){

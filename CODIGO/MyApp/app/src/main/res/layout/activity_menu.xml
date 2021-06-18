@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuPrincipal"
+    android:background="#202732">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MENU PRINCIPAL"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="210dp"
+        android:layout_height="48dp"
+        android:text="Realizar TEST"
+        android:onClick="irATestCOVID"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="248dp"
+        android:background="@drawable/button_rounded" />
+
+    <Button
+        android:id="@+id/btnListaEventos"
+        android:layout_width="210dp"
+        android:layout_height="48dp"
+        android:text="Ver Lista Eventos"
+        android:onClick="irAListaEventos"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="421dp"
+        android:background="@drawable/button_rounded" />
+
+    <Button
+        android:id="@+id/btnRecordatorio"
+        android:layout_width="210dp"
+        android:layout_height="48dp"
+        android:text="Recordatorio de Turnos"
+        android:onClick="irARecordatorio"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="335dp"
+        android:background="@drawable/button_rounded" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
