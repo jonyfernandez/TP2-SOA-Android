@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FormularioTest"
+    android:background="#202732">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formulario de Diagnostico"
+        android:textAlignment="center"
+        android:textColor="#020202"
+        android:textSize="20sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+
+    <EditText
+        android:id="@+id/etTemperatura"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="Temperatura"
+        android:inputType="textPersonName"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="156dp" />
+
+    <CheckBox
+        android:id="@+id/checkOlfato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Sentis que perdiste el olfato?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="234dp"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkGusto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Sentis que perdiste el gusto?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="273dp"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkTos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Tenes Tos?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="312dp"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkRespiratoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Tenes dificultad respiratoria?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="349dp"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkCabeza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Tenes dolores de cabeza?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="387dp"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkEstrecho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿contacto estrecho con otra persona?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="425dp"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkMusculares"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Tenes dolores  musculares?"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="463dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnTemperatura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medir"
+        android:textColor="#0E0C0C"
+        android:background="@drawable/button_rounded"
+        tools:layout_editor_absoluteX="219dp"
+        tools:layout_editor_absoluteY="153dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnDiagnosticar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded"
+        android:text="Diagnosticar"
+        android:textColor="#0E0C0C"
+        android:onClick="diagnosticar"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="49dp"
+        tools:layout_editor_absoluteY="579dp" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded"
+        android:text="Volver"
+        android:textColor="#0E0C0C"
+        android:onClick="volverAlMenu"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="210dp"
+        tools:layout_editor_absoluteY="579dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

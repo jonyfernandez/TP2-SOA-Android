@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="MENU PRINCIPAL"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#0C0C0C"
         android:textSize="20sp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="125dp"
