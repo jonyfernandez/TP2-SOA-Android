@@ -1,5 +1,6 @@
 package com.example.myapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,9 +16,13 @@ public class MenuPrincipal extends AppCompatActivity {
 
 
     public void irATestCOVID(View view) {
+        Intent intent = new Intent(MenuPrincipal.this, FormularioTest.class);
+        startActivity(intent);
     }
 
     public void irARecordatorio(View view) {
+        /*Intent intent = new Intent(MenuPrincipal.this, FormularioTest.class);
+        startActivity(intent);*/
     }
 
     public void irAListaEventos(View view) {
