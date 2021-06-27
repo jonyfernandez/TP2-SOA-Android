@@ -4,7 +4,7 @@ public class ResponseSubEvent {
 
     private String type_events;
     private long dni;
-    private String descripcion;
+    private String description;
     private long id;
 
     public String getType_events(){
@@ -23,12 +23,12 @@ public class ResponseSubEvent {
         this.dni = dni;
     }
 
-    public String getDescripcion(){
-        return descripcion;
+    public String getDescription(){
+        return description;
     }
 
-    public void setDescripcion(String descripcion){
-        this.descripcion = descripcion;
+    public void setDescription(String description){
+        this.description = description;
     }
 
     public long getId(){

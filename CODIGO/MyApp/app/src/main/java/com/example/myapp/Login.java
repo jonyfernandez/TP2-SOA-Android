@@ -13,9 +13,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapp.dto.ErrorResponse;
 import com.example.myapp.dto.RequestLogin;
 import com.example.myapp.dto.ResponseLogin;
+import com.example.myapp.dto.UsuarioLoggeado;
 import com.example.myapp.services.Service;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,12 +66,29 @@ public class Login extends AppCompatActivity {
                             public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
 
                                 if (response.isSuccessful()) {
-                                    /*Acá se puede mostrar un msj que tal persona inició session*/
-                                    /*Y tengo que pasar a la otra actividad, osea al menu principal*/
-                                    /*Tambien podesmos registrar el evento en la api*/
-                                    Toast.makeText(getApplicationContext(), "Usuario", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Log.e("Fallo", response.toString());
+
+                                    Toast.makeText(getApplicationContext(), "Bienvenido" , Toast.LENGTH_LONG).show();
+
+                                    PedidoAPI pedido = new PedidoAPI();
+                                    pedido.registrarEvento("Ingreso Login", "Login"); //Registro el evento en la API
+                                    UsuarioLoggeado.setToken(response.body().getToken());
+                                    UsuarioLoggeado.setToken_refresh(response.body().getToken_refresh());
+
+                                    ServiceActualizacionToken.iniciarTimer();
+                                    Intent actualizar = new Intent(Login.this, ServiceActualizacionToken.class);
+                                    startService(actualizar);
+
+                                    Intent intent = new Intent(Login.this, MenuPrincipal.class);
+                                    startActivity(intent);
+
+                                } else if(response.body() == null){
+                                    Gson gson = new Gson();
+                                    Type type =  new TypeToken<ErrorResponse>(){}.getType();
+                                    ErrorResponse errorResponse = gson.fromJson(response.errorBody().charStream(), type);
+                                    Toast.makeText(getApplicationContext(), errorResponse.getMsg(), Toast.LENGTH_LONG).show();
+                                    Log.i("mensajeError",errorResponse.getMsg());
+                                }else {
+                                    Log.e("failure",response.message());
                                 }
 
                             }
@@ -78,7 +101,7 @@ public class Login extends AppCompatActivity {
                         });
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "su internet esta desconectada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Su internet esta desconectada", Toast.LENGTH_SHORT).show();
                 }
             }
         });

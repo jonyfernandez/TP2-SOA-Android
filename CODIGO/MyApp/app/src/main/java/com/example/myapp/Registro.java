@@ -1,6 +1,7 @@
 package com.example.myapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,9 +13,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapp.dto.ErrorResponse;
 import com.example.myapp.dto.RequestRegistro;
 import com.example.myapp.dto.ResponseRegistro;
+import com.example.myapp.dto.UsuarioLoggeado;
 import com.example.myapp.services.Service;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +55,7 @@ public class Registro extends AppCompatActivity {
                     if (validarCampos()) {
 
                         final RequestRegistro request = new RequestRegistro();
-                        request.setEnv("TEST");
+                        request.setEnv("PROD");
                         request.setName(nombre.getText().toString());
                         request.setLastname(apellido.getText().toString());
                         request.setDni(Long.parseLong(dni.getText().toString()));
@@ -70,15 +77,30 @@ public class Registro extends AppCompatActivity {
                             public void onResponse(Call<ResponseRegistro> call, Response<ResponseRegistro> response) {
 
                                 if (response.isSuccessful()) {
-                                    /*Acá se puede mostrar un msj que se registró con exito*/
-                                    /*tambien hay que guardar los datos que nos devuelve y pasar al menu principal*/
-                                    /*Los datos se optienen como "token = response.body().getToken()"*/
-                                    /*Tambien podemos guardar este evento en la api*/
-                                    Toast.makeText(getApplicationContext(), "Registro Exitoso", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(getApplicationContext(), "Usuario:" + request.getName(), Toast.LENGTH_LONG).show();
-                                    Toast.makeText(getApplicationContext(), "Token:" + response.body().getToken(), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Log.e("Fallo", response.toString());
+                                    Toast.makeText(getApplicationContext(), "Registro Exitoso\n", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Bienvenido "+request.getName(), Toast.LENGTH_LONG).show();
+
+                                    PedidoAPI pedido = new PedidoAPI();
+                                    pedido.registrarEvento("Nuevo Registro", "Registro"); //Registro el evento en la API
+
+                                    UsuarioLoggeado.setToken(response.body().getToken());
+                                    UsuarioLoggeado.setToken_refresh(response.body().getToken_refresh());
+
+                                    ServiceActualizacionToken.iniciarTimer();
+                                    Intent actualizar = new Intent(Registro.this, ServiceActualizacionToken.class);
+                                    startService(actualizar);
+
+                                    Intent intent = new Intent(Registro.this, MenuPrincipal.class);
+                                    startActivity(intent);
+
+                                } else if(response.body() == null){
+                                    Gson gson = new Gson();
+                                    Type type =  new TypeToken<ErrorResponse>(){}.getType();
+                                    ErrorResponse errorResponse = gson.fromJson(response.errorBody().charStream(), type);
+                                    Toast.makeText(getApplicationContext(), errorResponse.getMsg(), Toast.LENGTH_LONG).show();
+                                    Log.i("mensajeError",errorResponse.getMsg());
+                                }else {
+                                    Log.e("failure",response.message());
                                 }
 
                             }

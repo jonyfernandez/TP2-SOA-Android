@@ -4,7 +4,7 @@ public class RequestEvent {
 
     private String env;
     private String type_events;
-    private String descripcion;
+    private String description;
 
     public String getEnv(){
         return env;
@@ -22,11 +22,11 @@ public class RequestEvent {
         this.type_events = type_events;
     }
 
-    public String getDescripcion(){
-        return descripcion;
+    public String getDescription(){
+        return description;
     }
 
-    public void setDescripcion(String descripcion){
-        this.descripcion = descripcion;
+    public void setDescription(String description){
+        this.description = description;
     }
 }

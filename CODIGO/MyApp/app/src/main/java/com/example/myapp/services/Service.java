@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Header;
+import retrofit2.http.PUT;
 
 public interface Service {
 
@@ -21,8 +22,8 @@ public interface Service {
     Call<ResponseRegistro> register (@Body RequestRegistro requestRegistro);
 
     @POST("api/event")
-    Call<ResponseEvent> registrarEvento(@Header ("token") String token, @Body RequestEvent requestEvent);
+    Call<ResponseEvent> registrarEvento (@Header ("Authorization") String token, @Body RequestEvent requestEvent);
 
-    /*@POST("api/refresh")
-    Call<ResponseTokenRefresh> actualizarToken(@Header String tokenRefresh);*/
+    @PUT("api/refresh")
+    Call<ResponseLogin> actualizarToken (@Header("Authorization") String token_refresh);
 }
