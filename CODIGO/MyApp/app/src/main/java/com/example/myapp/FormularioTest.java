@@ -1,6 +1,8 @@
 package com.example.myapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,15 +24,22 @@ public class FormularioTest extends AppCompatActivity implements SensorEventList
 
     private EditText temperatura;
     private CheckBox olfato, gusto, tos, respiracion, cabeza, contactoEstrecho, musculares;
-    private List<CheckBox> sintomas = new ArrayList<>();
     private double valorTemperatura;
     private SensorManager sensorManager;
+    private Sensor acelerometro;
+    private Sensor proximidad;
     private DecimalFormat unDecimal = new DecimalFormat("###.#");
+    private SharedPreferences sen_proximidad, tipos_sintomas;
+    private int contador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        acelerometro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        proximidad = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
         temperatura = findViewById(R.id.etTemperatura);
         olfato = findViewById(R.id.checkOlfato);
@@ -40,17 +49,14 @@ public class FormularioTest extends AppCompatActivity implements SensorEventList
         cabeza = findViewById(R.id.checkCabeza);
         contactoEstrecho = findViewById(R.id.checkEstrecho);
         musculares = findViewById(R.id.checkMusculares);
-        sintomas.add(olfato);
-        sintomas.add(gusto);
-        sintomas.add(tos);
-        sintomas.add(respiracion);
-        sintomas.add(cabeza);
-        sintomas.add(contactoEstrecho);
-        sintomas.add(musculares);
+
+        SharedPreferences contar = getSharedPreferences("contador", Context.MODE_PRIVATE);
+        contador = contar.getInt("contador", 0);
+
     }
 
     private void registrarSensores() {
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, acelerometro, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void quitarSensores() {
@@ -74,26 +80,33 @@ public class FormularioTest extends AppCompatActivity implements SensorEventList
     public void onSensorChanged(SensorEvent event) {
 
         synchronized (this) {
-            Log.d("Acelerometro", String.valueOf(event.values[0]));
 
             switch (event.sensor.getType()) {
 
                 case Sensor.TYPE_ACCELEROMETER:
+                    Log.d("Acelerometro", String.valueOf(event.values[0]));
 
-                    if (event.values[0] > 9.5 || event.values[0] < -9.5)
-                        Toast.makeText(getApplicationContext(), "Celular en horizontal", Toast.LENGTH_SHORT).show();
+                    if (event.values[0] > 8.5 || event.values[0] < -8.5)
+                        Toast.makeText(getApplicationContext(), "Celular en Horizontal", Toast.LENGTH_LONG).show();
 
                     break;
 
                 case Sensor.TYPE_PROXIMITY:
+                    Log.d("Proximidad", String.valueOf(event.values[0]));
+                    //tomamos un valor y dejamos de escuchar
                     sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY));
-                    temperatura.setText(unDecimal.format(event.values[0]));
+
+                    if(event.values[0] == 0){ //Cuando lo detecta tira un random para simular el sensor de temperatura.
+                        double valorTemp = (Math.random()*(40 - 36) + 36); //Temperatura entre 36 y 39
+                        temperatura.setText(unDecimal.format(valorTemp));
+                    }
 
                     break;
             }
         }
 
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -103,48 +116,120 @@ public class FormularioTest extends AppCompatActivity implements SensorEventList
     public void diagnosticar(View view) {
 
         String sintomasConfirmados = "";
-        valorTemperatura = Double.parseDouble(temperatura.getText().toString().replace(",","."));
+        boolean covid = false;
+        boolean tFiebre = false;
+        boolean tOlfato = false;
+        boolean tGusto = false;
+        boolean tRespiracion = false;
+        int cantidadSintomas = 0;
 
-        Intent intent = new Intent(FormularioTest.this, Diagnostico.class);
-        intent.putExtra("temperatura", temperatura.getText().toString().replace(",","."));
+        String valorTem = temperatura.getText().toString().replace(",",".");
+        if(!valorTem.isEmpty()) {
+            valorTemperatura = Double.parseDouble(valorTem);
 
-        if(valorTemperatura > 38.5){
-            sintomasConfirmados += "Tiene temperatura alta\n";
-        }
+            Intent intent = new Intent(FormularioTest.this, Diagnostico.class);
+            intent.putExtra("temperatura", valorTem);
 
-        if(olfato.isChecked()){
-            sintomasConfirmados += "Sin olfato\n";
-        }
+            if (valorTemperatura > 38) {
+                tFiebre = true;
+                sintomasConfirmados += "Tiene temperatura alta\n";
+            }
 
-        if(gusto.isChecked()){
-            sintomasConfirmados += "Sin gusto\n";
-        }
+            if (olfato.isChecked()) {
+                cantidadSintomas++;
+                tOlfato = true;
+                sintomasConfirmados += "Sin olfato\n";
+            }
 
-        if(tos.isChecked()){
-            sintomasConfirmados += "Tiene tos\n";
-        }
+            if (gusto.isChecked()) {
+                tGusto = true;
+                sintomasConfirmados += "Sin gusto\n";
+            }
 
-        if(respiracion.isChecked()){
-            sintomasConfirmados += "Tiene dificultad respiratoria\n";
-        }
+            if (tos.isChecked()) {
+                cantidadSintomas++;
+                sintomasConfirmados += "Tiene tos\n";
+            }
 
-        if(cabeza.isChecked()){
-            sintomasConfirmados += "Tiene dolores de cabeza\n";
-        }
+            if (respiracion.isChecked()) {
+                cantidadSintomas++;
+                tRespiracion = true;
+                sintomasConfirmados += "Tiene dificultad respiratoria\n";
+            }
 
-        if(contactoEstrecho.isChecked()){
-            sintomasConfirmados += "Tuvo contacto estrecho\n";
-        }
+            if (cabeza.isChecked()) {
+                cantidadSintomas++;
+                sintomasConfirmados += "Tiene dolores de cabeza\n";
+            }
 
-        if(musculares.isChecked()){
-            sintomasConfirmados += "Tiene dolores musculares\n";
-        }
+            if (contactoEstrecho.isChecked()) {
+                cantidadSintomas++;
+                sintomasConfirmados += "Tuvo contacto estrecho\n";
+            }
 
+            if (musculares.isChecked()) {
+                cantidadSintomas++;
+                sintomasConfirmados += "Tiene dolores musculares\n";
+            }
+
+            if (tFiebre == true && tOlfato == true && tGusto == true && tRespiracion == true) {
+                covid = true;
+            }else if (tOlfato == true && tGusto == true && tRespiracion == true) {
+                covid = true;
+            }else if (tOlfato == true && tGusto == true) {
+                covid = true;
+            }
+
+            contador++;
+            if(contador > 2)
+                contador = 0;
+
+            guardarPreferencias(sen_proximidad, valorTem, true, contador);
+            guardarPreferencias(tipos_sintomas, sintomasConfirmados, false, contador);
+
+            SharedPreferences contar = getSharedPreferences("contador", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = contar.edit();
+            editor.putInt("contador", contador);
+            editor.commit();
+
+            intent.putExtra("covid", covid);
+            intent.putExtra("cantidad_sintomas", cantidadSintomas);
+            intent.putExtra("sintomas", sintomasConfirmados);
+
+            startActivity(intent);
+        }else
+            Toast.makeText(getApplicationContext(),"Debe tomarse la temperatura", Toast.LENGTH_LONG).show();
 
     }
 
-    public void TomarTemperatura(View view) {
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY), SensorManager.SENSOR_DELAY_NORMAL);
+    /**
+     * Metodo donde guardo eventos de temperatura y sintomas
+     * y lo muestro en la lista de eventos
+     *
+     * */
+
+    private void guardarPreferencias(SharedPreferences preferencias, String valor, boolean proximidad, int n) {
+
+        if(n == 0)
+            n = 1;
+
+        if(proximidad) {
+            preferencias = getSharedPreferences("temperatura", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            String v = valor + " °C";
+            editor.putString("temperatura" + n, v);
+            editor.commit();
+        }else{
+            preferencias = getSharedPreferences("sintomas", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("sintomas" + n, valor);
+            editor.commit();
+        }
+
+    }
+
+    public void tomarTemperatura(View view) {
+        sensorManager.registerListener(this, proximidad, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void volverAlMenu(View view) {

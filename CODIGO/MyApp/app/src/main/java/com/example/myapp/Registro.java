@@ -48,75 +48,89 @@ public class Registro extends AppCompatActivity {
         grupo = findViewById(R.id.etGrupo);
         boton_registrar = findViewById(R.id.btnRegistro);
 
-        boton_registrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(comprobarConexionInternet()) {
-                    if (validarCampos()) {
+        boton_registrar.setOnClickListener(v -> {
+            if(comprobarConexionInternet()) {
+                if (validarCampos()) {
 
-                        final RequestRegistro request = new RequestRegistro();
-                        request.setEnv("PROD");
-                        request.setName(nombre.getText().toString());
-                        request.setLastname(apellido.getText().toString());
-                        request.setDni(Long.parseLong(dni.getText().toString()));
-                        request.setEmail(email.getText().toString());
-                        request.setPassword(password.getText().toString());
-                        request.setComission(Long.parseLong(comision.getText().toString()));
-                        request.setGroup(Long.parseLong(grupo.getText().toString()));
+                    RequestRegistro request = new RequestRegistro();
+                    request.setEnv("PROD");
+                    request.setName(nombre.getText().toString());
+                    request.setLastname(apellido.getText().toString());
+                    request.setDni(Long.parseLong(dni.getText().toString()));
+                    request.setEmail(email.getText().toString());
+                    request.setPassword(password.getText().toString());
+                    request.setCommission(Long.parseLong(comision.getText().toString()));
+                    request.setGroup(Long.parseLong(grupo.getText().toString()));
 
-                        Retrofit retrofit = new Retrofit.Builder() //hay que agregar las dependencias en build.gradle
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .baseUrl("http://so-unlam.net.ar/api/")
-                                .build();
+                    Retrofit retrofit = new Retrofit.Builder() //hay que agregar las dependencias en build.gradle
+                            .baseUrl("http://so-unlam.net.ar/api/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
 
-                        Service service = retrofit.create(Service.class);
+                    Service service = retrofit.create(Service.class);
 
-                        Call<ResponseRegistro> call = service.register(request);
-                        call.enqueue(new Callback<ResponseRegistro>() { //ejecuccion asincrónica, si fuera sincronica se queda esperando la respuesta
-                            @Override
-                            public void onResponse(Call<ResponseRegistro> call, Response<ResponseRegistro> response) {
+                    Call<ResponseRegistro> call = service.register(request);
+                    call.enqueue(new Callback<ResponseRegistro>() { //ejecuccion asincrónica, si fuera sincronica se queda esperando la respuesta
+                        @Override
+                        public void onResponse(Call<ResponseRegistro> call, Response<ResponseRegistro> response) {
 
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Registro Exitoso\n", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(getApplicationContext(), "Bienvenido "+request.getName(), Toast.LENGTH_LONG).show();
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Registro Exitoso\n", Toast.LENGTH_LONG).show();
 
-                                    PedidoAPI pedido = new PedidoAPI();
-                                    pedido.registrarEvento("Nuevo Registro", "Registro"); //Registro el evento en la API
+                                UsuarioLoggeado.setToken(response.body().getToken());
+                                UsuarioLoggeado.setToken_refresh(response.body().getToken_refresh());
 
-                                    UsuarioLoggeado.setToken(response.body().getToken());
-                                    UsuarioLoggeado.setToken_refresh(response.body().getToken_refresh());
+                                PedidoAPI pedido = new PedidoAPI();
+                                pedido.registrarEvento("Nuevo Registro", "Registro"); //Registro el evento en la API
 
-                                    ServiceActualizacionToken.iniciarTimer();
-                                    Intent actualizar = new Intent(Registro.this, ServiceActualizacionToken.class);
-                                    startService(actualizar);
+                                ServiceActualizacionToken.iniciarTimer();
+                                Intent actualizar = new Intent(Registro.this, ServiceActualizacionToken.class);
+                                startService(actualizar);
 
-                                    Intent intent = new Intent(Registro.this, MenuPrincipal.class);
-                                    startActivity(intent);
+                                Intent intent = new Intent(Registro.this, MenuPrincipal.class);
+                                startActivity(intent);
 
-                                } else if(response.body() == null){
-                                    Gson gson = new Gson();
-                                    Type type =  new TypeToken<ErrorResponse>(){}.getType();
-                                    ErrorResponse errorResponse = gson.fromJson(response.errorBody().charStream(), type);
-                                    Toast.makeText(getApplicationContext(), errorResponse.getMsg(), Toast.LENGTH_LONG).show();
-                                    Log.i("mensajeError",errorResponse.getMsg());
-                                }else {
-                                    Log.e("failure",response.message());
-                                }
-
+                            } else if(response.body() == null){
+                                Gson gson = new Gson();
+                                Type type =  new TypeToken<ErrorResponse>(){}.getType();
+                                ErrorResponse errorResponse = gson.fromJson(response.errorBody().charStream(), type);
+                                Toast.makeText(getApplicationContext(), errorResponse.getMsg(), Toast.LENGTH_LONG).show();
+                                Log.i("mensajeError",errorResponse.getMsg());
+                            }else {
+                                Log.e("failure",response.message());
                             }
 
-                            @Override
-                            public void onFailure(Call<ResponseRegistro> call, Throwable t) { //Cuando hay una mala configuracion del retrofit
-                                Log.e("Fallo", t.getMessage());
-                            }
+                        }
 
-                        });
-                    }
-                }else {
-                    Toast.makeText(getApplicationContext(), "No se pudo completar el registro" + "su internet esta desconectada", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onFailure(Call<ResponseRegistro> call, Throwable t) { //Cuando hay una mala configuracion del retrofit
+                            Log.e("Fallo", t.getMessage());
+                        }
+
+                    });
                 }
+            }else {
+                Toast.makeText(getApplicationContext(), "No se pudo completar el registro" + "su internet esta desconectada", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("registro", "OnStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ServiceActualizacionToken.detenerTimer();
+        Log.i("registro", "OnResume");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("registro", "OnStop");
     }
 
     /**
@@ -147,6 +161,7 @@ public class Registro extends AppCompatActivity {
         String campEmail = email.getText().toString();
         String campPass = password.getText().toString();
         String campComi = comision.getText().toString();
+        String campGrupo = grupo.getText().toString();
 
         boolean valido = true;
         if(campNombre.isEmpty()){
@@ -171,6 +186,11 @@ public class Registro extends AppCompatActivity {
         }
         if(campComi.isEmpty()){
             comision.setError("Debe ingresar la comision para registrarse");
+            valido = false;
+        }
+
+        if(campGrupo.isEmpty()){
+            comision.setError("Debe ingresar el numero de grupo para registrarse");
             valido = false;
         }
 

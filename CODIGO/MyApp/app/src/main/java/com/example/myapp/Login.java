@@ -54,8 +54,8 @@ public class Login extends AppCompatActivity {
                         request.setPassword(password.getText().toString());
 
                         Retrofit retrofit = new Retrofit.Builder()
-                                .addConverterFactory(GsonConverterFactory.create())
                                 .baseUrl("http://so-unlam.net.ar/api/")
+                                .addConverterFactory(GsonConverterFactory.create())
                                 .build();
 
                         Service service = retrofit.create(Service.class);
@@ -69,10 +69,11 @@ public class Login extends AppCompatActivity {
 
                                     Toast.makeText(getApplicationContext(), "Bienvenido" , Toast.LENGTH_LONG).show();
 
-                                    PedidoAPI pedido = new PedidoAPI();
-                                    pedido.registrarEvento("Ingreso Login", "Login"); //Registro el evento en la API
                                     UsuarioLoggeado.setToken(response.body().getToken());
                                     UsuarioLoggeado.setToken_refresh(response.body().getToken_refresh());
+
+                                    PedidoAPI pedido = new PedidoAPI();
+                                    pedido.registrarEvento("Ingreso Login", "Login"); //Registro el evento en la API
 
                                     ServiceActualizacionToken.iniciarTimer();
                                     Intent actualizar = new Intent(Login.this, ServiceActualizacionToken.class);
@@ -105,6 +106,24 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("login", "OnStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ServiceActualizacionToken.detenerTimer();
+        Log.i("login", "OnResume");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("login", "OnStop");
     }
 
     /**

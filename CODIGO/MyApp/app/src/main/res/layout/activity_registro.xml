@@ -14,12 +14,13 @@
         android:layout_height="45dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:hint="Nombre"
         android:inputType="textPersonName"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="95dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etApellido"
@@ -31,6 +32,7 @@
         android:ems="10"
         android:hint="Apellido"
         android:inputType="textPersonName"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etNombre" />
 
@@ -44,6 +46,7 @@
         android:ems="10"
         android:hint="Dni"
         android:inputType="number"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etApellido" />
 
@@ -57,6 +60,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDni" />
 
@@ -70,6 +74,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
@@ -83,6 +88,7 @@
         android:ems="10"
         android:hint="Comision"
         android:inputType="number"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
@@ -96,6 +102,7 @@
         android:ems="10"
         android:hint="Grupo"
         android:inputType="number"
+        android:textColor="#E4DFDF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etComision" />
 
@@ -103,9 +110,14 @@
         android:id="@+id/btnRegistro"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Registrar"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="493dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:background="@drawable/button_rounded"
-        tools:ignore="MissingConstraints" />
+        android:text="Registrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etGrupo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

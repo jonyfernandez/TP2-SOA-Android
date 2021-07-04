@@ -11,70 +11,100 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="Bienvenido a CovidTest"
-        android:textColor="#020202"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="90dp"
-        tools:layout_editor_absoluteY="97dp"
         android:textAlignment="center"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#F1ECEC"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/etBateria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#020202"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:textColor="#E00C0C"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="145dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
         android:id="@+id/etNumeroTel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
-        android:inputType="phone"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="268dp"
+        android:textColor="#E4DFDF"
         android:hint="Ingrese su numero"
+        android:inputType="phone"
         android:textAlignment="center"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBateria" />
 
     <Button
         android:id="@+id/btnEnviar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/etNumeroTel"
-        tools:layout_editor_absoluteX="161dp"
-        android:hint="ENVIAR"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:background="@drawable/button_rounded"
+        android:hint="ENVIAR"
         android:onClick="enviarMensaje"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNumeroTel" />
 
     <EditText
         android:id="@+id/etCodigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="102dp"
-        tools:layout_editor_absoluteY="398dp"
         android:hint="Ingrese el codigo"
+        android:inputType="number"
         android:textAlignment="center"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEnviar" />
 
     <Button
         android:id="@+id/btnValidar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/etCodigo"
-        tools:layout_editor_absoluteX="159dp"
-        android:hint="VALIDAR"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:background="@drawable/button_rounded"
+        android:hint="VALIDAR"
         android:onClick="validarCodigo"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCodigo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

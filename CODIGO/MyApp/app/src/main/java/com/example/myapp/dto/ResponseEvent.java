@@ -5,7 +5,6 @@ public class ResponseEvent {
     private Boolean success;
     private String env;
     private ResponseSubEvent event;
-    private String msg;
 
     public Boolean getSuccess(){
         return success;
@@ -31,11 +30,4 @@ public class ResponseEvent {
         this.event = event;
     }
 
-    public String getMsg(){
-        return msg;
-    }
-
-    public void setMsg(String Msg){
-        this.msg = msg;
-    }
 }

@@ -21,10 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".ServiceActualizacionToken" android:exported="false"></service>
         <activity android:name=".Login" />
         <activity android:name=".Registro" />
         <activity android:name=".MenuPrincipal" />
         <activity android:name=".FormularioTest" />
+        <activity android:name=".Diagnostico" />
+        <activity android:name=".Eventos" />
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ public class ResponseRegistro {
     private String env;
     private String token;
     private String token_refresh;
-    private String msg;
 
     public Boolean getSuccess(){
         return success;
@@ -40,11 +39,4 @@ public class ResponseRegistro {
         this.token_refresh = token_refresh;
     }
 
-    public String getMsg(){
-        return msg;
-    }
-
-    public void setMsg(String msg){
-        this.msg = msg;
-    }
 }

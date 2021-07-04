@@ -8,7 +8,7 @@ public class RequestRegistro {
     private long dni;
     private String email;
     private String password;
-    private long comission;
+    private long commission;
     private long group;
 
     public String getEnv(){
@@ -59,12 +59,12 @@ public class RequestRegistro {
         this.password = password;
     }
 
-    public long getComission(){
-        return comission;
+    public long getCommission(){
+        return commission;
     }
 
-    public void setComission(long comission){
-        this.comission = comission;
+    public void setCommission(long commission){
+        this.commission = commission;
     }
 
     public long getGroup(){

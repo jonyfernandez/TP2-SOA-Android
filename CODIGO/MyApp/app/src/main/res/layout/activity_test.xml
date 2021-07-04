@@ -12,125 +12,184 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="Formulario de Diagnostico"
         android:textAlignment="center"
-        android:textColor="#020202"
-        android:textSize="20sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="97dp" />
-
+        android:textColor="#F1ECEC"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etTemperatura"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:enabled="false"
         android:hint="Temperatura"
         android:inputType="textPersonName"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="156dp" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <CheckBox
         android:id="@+id/checkOlfato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="¿Sentis que perdiste el olfato?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="234dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTemperatura" />
 
     <CheckBox
         android:id="@+id/checkGusto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="¿Sentis que perdiste el gusto?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="273dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkOlfato" />
 
     <CheckBox
         android:id="@+id/checkTos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginRight="141dp"
         android:text="¿Tenes Tos?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="312dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkGusto" />
 
     <CheckBox
         android:id="@+id/checkRespiratoria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="¿Tenes dificultad respiratoria?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="349dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkTos" />
 
     <CheckBox
         android:id="@+id/checkCabeza"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
         android:text="¿Tenes dolores de cabeza?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="387dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkRespiratoria" />
 
     <CheckBox
         android:id="@+id/checkEstrecho"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         android:text="¿contacto estrecho con otra persona?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="425dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkCabeza" />
 
     <CheckBox
         android:id="@+id/checkMusculares"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
         android:text="¿Tenes dolores  musculares?"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="463dp"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#E4DFDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkEstrecho" />
 
     <Button
         android:id="@+id/btnTemperatura"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_rounded"
+        android:onClick="tomarTemperatura"
         android:text="Medir"
         android:textColor="#0E0C0C"
-        android:background="@drawable/button_rounded"
-        android:onClick="TomarTemperatura"
-        tools:layout_editor_absoluteX="219dp"
-        tools:layout_editor_absoluteY="153dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toEndOf="@+id/etTemperatura"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/btnDiagnosticar"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/button_rounded"
+        android:onClick="diagnosticar"
         android:text="Diagnosticar"
         android:textColor="#0E0C0C"
-        android:onClick="diagnosticar"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="49dp"
-        tools:layout_editor_absoluteY="579dp" />
+        app:layout_constraintEnd_toStartOf="@+id/btnVolver"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkMusculares" />
 
     <Button
         android:id="@+id/btnVolver"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
         android:background="@drawable/button_rounded"
+        android:onClick="volverAlMenu"
         android:text="Volver"
         android:textColor="#0E0C0C"
-        android:onClick="volverAlMenu"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="210dp"
-        tools:layout_editor_absoluteY="579dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkMusculares" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
